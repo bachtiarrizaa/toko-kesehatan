@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
             $table->integer('telp');
-            $table->integer('paypalId');
+            $table->string('paypalId');
             $table->string('city');
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->string('password');
