@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
-            $table->integer('telp');
+            $table->string('telp', 15);
             $table->string('paypalId');
             $table->string('city');
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');

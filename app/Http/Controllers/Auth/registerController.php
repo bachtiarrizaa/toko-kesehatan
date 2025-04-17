@@ -10,14 +10,19 @@ use Illuminate\Support\Facades\Hash;
 
 class registerController extends Controller
 {
+    public function registerForm() {
+        return view('auth.register');
+    }
+
     public function register(Request $request) {
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'address' => 'required|string|max:255',
-            'telp' => 'required|digits_between:10,15',
+            'telp' => 'required|string|max:15',
             'paypalId' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
