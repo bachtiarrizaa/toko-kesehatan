@@ -2,7 +2,7 @@
 
 @section('container')
 <section class="bg-white dark:bg-gray-900">
-    <div class="container px-6 py-18 mx-auto lg:py-20">
+    <div class="container px-6 py-14 mx-auto lg:py-14">
         <div class="lg:flex">
             <div class="lg:w-1/2">
                 <h1 class="mt-4 text-gray-600 dark:text-gray-300 md:text-lg">Welcome to <span class="font-medium text-primary-700">Careline</span></h1>
@@ -21,11 +21,9 @@
                             <span class="block sm:inline">{{ $errors->first() }}</span>
                         </div>
                     @endif
-                    <div class="relative flex items-center">
+                    <div class="flex items-center">
                         <span class="absolute">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                            <ion-icon name="person-outline" class="w-6 h-6 mx-3 mt-2 text-gray-300 dark:text-gray-500"></ion-icon>
                         </span>
 
                         <input type="text" name="name" id="name" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Full Name" required autofocus>
