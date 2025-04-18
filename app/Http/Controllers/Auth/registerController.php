@@ -27,9 +27,9 @@ class registerController extends Controller
             'city' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
+    
         try {
-            $userRegister = User::create([
+            $userRegister = user::create([
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
@@ -39,17 +39,18 @@ class registerController extends Controller
                 'telp' => $request->telp,
                 'paypalId' => $request->paypalId,
                 'city' => $request->city,
-                'role_id' => 2,
+                'role_id' => 2, // Ini role customer ya btw
                 'password' => Hash::make($request->password),
             ]);
-
-            Auth::login($userRegister);
-
-            return redirect()->route('login')->with('success', 'Registrasi Berhasil');
+    
+            // HAPUS Auth::login($userRegister);
+    
+            return redirect()->route('login')->with('success', 'Registrasi Berhasil! Silakan login.');
         } catch (\Exception $e) {
             return back()->withErrors([
                 'error' => 'Terjadi kesalahan; ' . $e->getMessage(),
             ])->withInput();
         }
     }
+    
 }

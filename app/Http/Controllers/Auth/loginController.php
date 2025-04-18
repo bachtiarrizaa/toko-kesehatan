@@ -23,7 +23,7 @@ class loginController extends Controller
                 $user = Auth::user();
 
                 if ($user->role_id === 1) {
-                    return redirect()->route('admin.dashboar');
+                    return redirect()->route('admin.index');
                 } else {
                     return redirect()->route('home');
                 }

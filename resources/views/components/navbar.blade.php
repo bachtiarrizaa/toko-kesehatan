@@ -78,6 +78,7 @@
                   </form>
                 </div>
               </div>
+              <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-primary-400">{{ Auth::user()->username }}</h2>
             </div>
           </div>
         @else
@@ -184,10 +185,6 @@
                 <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:text-primary-700">Sign In <span aria-hidden="true">&rarr;</span></a>
               @endif
             </div>
-
-            {{-- <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-            </div> --}}
           </div>
         </div>
       </div>
