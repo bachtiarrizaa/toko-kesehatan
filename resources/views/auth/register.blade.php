@@ -12,25 +12,15 @@
                 </h1>
             </div>
 
-            @if (session('success'))
-                <div style="color: :green">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if($errors->any())
-                <div style="color: red;">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <div class="mt-8 lg:w-1/2 lg:mt-0">
                 <form class="w-full lg:max-w-xl" method="POST" action="{{ route('register') }}">
                     @csrf
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong class="font-bold">Oops!</strong>
+                            <span class="block sm:inline">{{ $errors->first() }}</span>
+                        </div>
+                    @endif
                     <div class="relative flex items-center">
                         <span class="absolute">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -38,7 +28,7 @@
                             </svg>
                         </span>
 
-                        <input type="name" name="name" id="name" value="{{ old('name') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Full Name" required autofocus>
+                        <input type="text" name="name" id="name" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Full Name" required autofocus>
                     </div>
 
                     <div class="relative flex items-center mt-4">
@@ -48,7 +38,7 @@
                             </svg>
                         </span>
 
-                        <input type="username" name="username" id="username" value="{{ old('username') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username" required>
+                        <input type="text" name="username" id="username" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username" required>
                     </div>
                     
 
@@ -59,7 +49,7 @@
                             </svg>
                         </span>
 
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" required>
+                        <input type="email" name="email" id="email" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" required>
                     </div>
                     <div class="relative flex items-center mt-4">
                         <span class="absolute">
@@ -68,7 +58,7 @@
                             </svg>
                         </span>
 
-                        <input type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Date of Birthdat" required>
+                        <input type="date" name="date_of_birth" id="date_of_birth" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Date of Birthday" required>
                     </div>
                     <div class="relative flex items-center mt-4">
                         <span class="absolute">
@@ -92,7 +82,7 @@
                             </svg>
                         </span>
 
-                        <input type="text" name="address" id="address" value="{{ old('address') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Address" required>
+                        <input type="text" name="address" id="address" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Address" required>
                     </div>
                     <div class="relative flex items-center mt-4">
                         <span class="absolute">
@@ -101,7 +91,7 @@
                             </svg>
                         </span>
 
-                        <input type="text" name="telp" id="telp" value="{{ old('telp') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Telphone Number" required>
+                        <input type="text" name="telp" id="telp" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Telphone Number" required>
                     </div>
                     <div class="relative flex items-center mt-4">
                         <span class="absolute">
@@ -110,7 +100,7 @@
                             </svg>
                         </span>
 
-                        <input type="text" name="paypalId" id="paypalId" value="{{ old('paypalId') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Paypal Id" required>
+                        <input type="text" name="paypalId" id="paypalId" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Paypal Id" required>
                     </div>
 
                     <div class="relative flex items-center mt-4">
@@ -120,7 +110,7 @@
                             </svg>
                         </span>
 
-                        <input type="text" name="city" id="city" value="{{ old('city') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="City" required>
+                        <input type="text" name="city" id="city" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="City" required>
                     </div>
 
                     <div class="relative flex items-center mt-4">
@@ -152,16 +142,6 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 dark:text-blue-400">Sign In</a></p>
                     </div>
-
-                    @if ($errors->any())
-                        <div>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </form>
             </div>
         </div>

@@ -8,13 +8,19 @@
                 <h1 class="mt-4 text-gray-600 dark:text-gray-300 md:text-lg">Welcome to <span class="font-medium text-primary-700">Careline</span></h1>
                 
                 <h1 class="mt-4 text-2xl font-medium text-gray-800 capitalize lg:text-3xl dark:text-white">
-                    Sing In to your account
+                    Sign In to your account
                 </h1>
             </div>
 
             <div class="mt-8 lg:w-1/2 lg:mt-0">
                 <form class="w-full lg:max-w-xl" method="POST" action="{{ route('login') }}">
                     @csrf
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong class="font-bold">Oops!</strong>
+                            <span class="block sm:inline">{{ $errors->first() }}</span>
+                        </div>
+                    @endif
                     <div class="relative flex items-center">
                         <span class="absolute">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -24,6 +30,9 @@
 
                         <input type="email" name="email" id="email" value="{{ old('email') }}" class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" required autofocus>
                     </div>
+                    @error('email')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
 
                     <div class="relative flex items-center mt-4">
                         <span class="absolute">
@@ -34,6 +43,9 @@
 
                         <input type="password" name="password" id="password" class="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" required>
                     </div>
+                    @error('password')
+                        <p class="mt-2 text-sm text-red600">{{ $message }}</p>
+                    @enderror
 
                     <div class="mt-8 md:flex md:items-center">
                         <button type="submit" class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary-700 rounded-lg md:w-1/2 hover:bg-primary-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-50">
@@ -47,16 +59,6 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">Don't have an account? <a href="{{ route('register') }}" class="text-blue-500 dark:text-blue-400">Sign Up</a></p>
                     </div>
-
-                    @if ($errors->any())
-                        <div>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </form>
             </div>
         </div>
