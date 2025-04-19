@@ -362,8 +362,8 @@
                                                <img src="images/avatar/user-1.png" alt="">
                                            </span>
                                            <span class="flex flex-column">
-                                               <span class="body-title mb-2">Kristin Watson</span>
-                                               <span class="text-tiny">Admin</span>
+                                               <span class="body-title mb-2">{{ Auth::user()->name }}</span>
+                                               <span class="text-tiny">{{ Auth::user()->role->name }}</span>
                                            </span>
                                        </span>
                                    </button>
