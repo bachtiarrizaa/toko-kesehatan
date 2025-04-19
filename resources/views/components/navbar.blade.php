@@ -3,7 +3,7 @@
       <div class="flex lg:flex-1">
         <a href="#" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
-          <img class="h-20 md:h-20 w-auto sm:h-12" src="{{ asset('images/careline-logo.png') }}" alt="">
+          <img class="h-20 md:h-20 w-auto sm:h-12" src="{{ asset('assets/images/logo/careline.png') }}" alt="">
         </a>
       </div>
       <div class="flex lg:hidden">
@@ -97,7 +97,7 @@
       <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
           <a href="{{ route('home') }}" class="-m-1.5 p-1.5">
-            <img class="h-20 w-auto" src="{{ asset('images/careline-logo.png') }}" alt="">
+            <img class="h-20 w-auto" src="{{ asset('assets/images/logo/careline.png') }}" alt="">
           </a>
           <button @click="isOpen = !isOpen" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
             <span class="sr-only">Close menu</span>

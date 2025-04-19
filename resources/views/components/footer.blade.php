@@ -2,8 +2,8 @@
     <div class="mx-auto max-w-screen-xl">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
-                <a href="https://flowbite.com" class="flex items-center">
-                    <img src="{{ asset('images/careline-logo.png') }}" class="mr-3 h-24" alt="FlowBite Logo" />
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <img src="{{ asset('assets/images/logo/careline.png') }}" class="mr-3 h-24" alt="FlowBite Logo" />
                     {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-green">Flowbite</span> --}}
                 </a>
             </div>
