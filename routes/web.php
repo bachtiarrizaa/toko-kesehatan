@@ -33,15 +33,19 @@ Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/admin/category/add', [CategoryController::class, 'addCategoryForm'])->name('admin.category.add');
     Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('admin.category.add');
-    Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
-    Route::put('/admin/category/edit/{id}', [CategoryController::class, 'update'])->name('admin.category.edit');
+    Route::get('/admin/category/edit/{id}', [CategoryController::class, 'editCategoryForm'])->name('admin.category.edit');
+    Route::put('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
     Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 
 
     Route::get('/admin/product', [ProductController::class, 'index'])->name('admin.product.index');
-    Route::get('/admin/product/add', [ProductController::class, 'add_product'])->name('admin.product.add');
-    // Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
+    Route::get('/admin/product/add', [ProductController::class, 'addProductForm'])->name('admin.product.add');
+    Route::post('/admin/product/add', [ProductController::class, 'store'])->name('admin.product.add');
+    Route::get('/admin/product/edit/{id}', [ProductController::class, 'editProductForm'])->name('admin.product.edit');
+    Route::put('/admin/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
+    Route::delete('/admin/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
 
-    Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
-    Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');
+
+    // Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
+    // Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');
 });

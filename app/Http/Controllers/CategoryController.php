@@ -28,13 +28,13 @@ class CategoryController extends Controller
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('admin.category.index')->with('success', 'Berhasil menambah kategori');
+            return redirect()->route('admin.category.index')->with('success', 'Successfully added the category');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'An error occurred: ' . $e->getMessage())->withInput();
         }
     }
 
-    public function edit($id)
+    public function editCategoryForm($id)
     {
         $category = Category::findOrFail($id);
 
@@ -42,7 +42,7 @@ class CategoryController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -54,7 +54,7 @@ class CategoryController extends Controller
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('admin.category.index')->with('success', 'Kategori berhasil diperbarui.');
+            return redirect()->route('admin.category.index')->with('success', 'Product updated successfully');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
         }
@@ -66,7 +66,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->delete();
 
-            return redirect()->route('admin.category.index')->with('success', 'Kategori berhasil dihapus.');
+            return redirect()->route('admin.category.index')->with('success', 'Category successfully deleted');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
