@@ -52,16 +52,18 @@
                                     <td>{{ $category->name }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="#">
+                                            <a href="{{ route('admin.category.edit', $category->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="#" method="POST">
-                                                <div class="item text-danger delete">
+                                            <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="item text-danger delete" onclick="return confirm('Are you sure?')">
                                                     <i class="icon-trash-2"></i>
-                                                </div>
-                                            </form>
+                                                </button>
+                                            </form>                                            
                                         </div>
                                     </td>
                                 </tr>
