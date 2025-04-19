@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+{{-- @extends('layouts.admin')
 @section('container')
 <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">
     @csrf
@@ -8,4 +8,4 @@
     </div>
 </form>
 
-@endsection
+@endsection --}}
