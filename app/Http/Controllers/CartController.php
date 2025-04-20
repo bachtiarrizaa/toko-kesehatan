@@ -116,6 +116,17 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        try {
+            // Pastikan cart milik user yang sedang login
+            if ($cart->user_id !== Auth::id()) {
+                return abort(403, 'Unauthorized');
+            }
+    
+            $cart->delete();
+    
+            return redirect()->route('cart.index')->with('success', 'Product removed from cart');
+        } catch (\Exception $e) {
+            return redirect()->route('cart.index')->with('error', 'Failed to remove product: ' . $e->getMessage());
+        }
     }
 }
