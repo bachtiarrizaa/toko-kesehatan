@@ -29,7 +29,7 @@ class registerController extends Controller
         ]);
     
         try {
-            $userRegister = user::create([
+            User::create([
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
@@ -39,11 +39,9 @@ class registerController extends Controller
                 'telp' => $request->telp,
                 'paypalId' => $request->paypalId,
                 'city' => $request->city,
-                'role_id' => 2, // Ini role customer ya btw
+                'role_id' => 1, // Ini role customer ya btw
                 'password' => Hash::make($request->password),
             ]);
-    
-            // HAPUS Auth::login($userRegister);
     
             return redirect()->route('login')->with('success', 'Registrasi Berhasil! Silakan login.');
         } catch (\Exception $e) {

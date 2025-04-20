@@ -52,10 +52,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($categories as $key => $category)
+                                        @foreach ($categories as $category)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                             <td class="px-6 py-4 w-20">
-                                                {{ $key + 1 }}
+                                                {{ $loop->iteration }}
                                             </td>
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $category->name }}
@@ -121,6 +121,7 @@
         </div>
     </div>
     
+    @foreach ($categories->reverse() as $category)
     <div id="deleteCategory-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow-sm">
@@ -147,4 +148,5 @@
             </div>
         </div>
     </div>
+    @endforeach
 @endsection

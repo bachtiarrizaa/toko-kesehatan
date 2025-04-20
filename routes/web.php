@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/customer', [CustomerController::class, 'index'])->name('user.index');
 });
 
+
 Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
@@ -46,6 +47,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::delete('/admin/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
 
 
-    // Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
-    // Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');
 });
+// Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
+// Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');
+
+
+// Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+//     Route::get('/', [AdminController::class, 'index'])->name('index');
+
+//     Route::resource('category', CategoryController::class)->except(['show', 'create']);
+//     Route::resource('product', ProductController::class)->except(['show', 'create']);
+// });
