@@ -8,16 +8,26 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $categories = Category::all();
         return view('admin.category.index', compact('categories'));
     }
-    
-    public function addCategoryForm() {
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         return view('admin.category.add-category');
     }
 
+    /**
+     * Store a newly created resource in storage.
+    */
     public function store(Request $request) {
         $request->validate([
             'name' => 'required|string|max:255'
@@ -34,36 +44,48 @@ class CategoryController extends Controller
         }
     }
 
-    public function editCategoryForm($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
     {
-        $category = Category::findOrFail($id);
+        //
+    }
 
+    /**
+     * Show the form for editing the specified resource.
+    */
+    public function edit(Category $category)
+    {
         return view('admin.category.edit-category', compact('category'));
     }
 
-
-    public function edit(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Category $category)
     {
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
         try {
-            $category = Category::findOrFail($id);
             $category->update([
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('admin.category.index')->with('success', 'Product updated successfully');
+            return redirect()->route('admin.category.index')->with('success', 'Category updated successfully');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
         }
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Category $category)
     {
         try {
-            $category = Category::findOrFail($id);
             $category->delete();
 
             return redirect()->route('admin.category.index')->with('success', 'Category successfully deleted');

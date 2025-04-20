@@ -8,7 +8,7 @@
                     <a href="#" class="inline-flex items-center text-lg font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Edit Category</a>
                 </li>
             </nav>  
-            <form action="{{ route('admin.category.edit', $category->id) }}" method="POST">
+            <form action="{{ route('admin.category.update', $category->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 @if ($errors->any())

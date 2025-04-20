@@ -86,7 +86,7 @@
           </button>
           <ul id="product-dropdown" class="hidden py-2 space-y-2">
               <li>
-                  <a href="{{ route('admin.product.add') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add New Product</a>
+                  <a href="{{ route('admin.product.create') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add New Product</a>
               </li>
               <li>
                   <a href="{{ route('admin.product.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Product List</a>
@@ -105,7 +105,7 @@
           </button>
           <ul id="category-dropdown" class="hidden py-2 space-y-2">
               <li>
-                  <a href="{{ route('admin.category.add') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add New Categories</a>
+                  <a href="{{ route('admin.category.create') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add New Categories</a>
               </li>
               <li>
                   <a href="{{ route('admin.category.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Categories List</a>
@@ -132,10 +132,10 @@
           </button>
           <ul id="shop-dropdown" class="hidden py-2 space-y-2">
               <li>
-                  <a href="{{ route('admin.category.add') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Shop Information</a>
+                  <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Shop Information</a>
               </li>
               <li>
-                  <a href="{{ route('admin.category.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Shop List</a>
+                  <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Shop List</a>
               </li>
           </ul>
        </li>

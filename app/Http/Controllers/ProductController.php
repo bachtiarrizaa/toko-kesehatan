@@ -14,23 +14,16 @@ class ProductController extends Controller
     public function index() {
         $categories = Category::all();
         $products = Product::all();
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            // Kalau iya:
+        if (Auth::check() && Auth::user()->role_id === 1) {
             return view('admin.product.index', compact('products', 'categories'));
         } else {
-            // Kalau bukan admin atau belum login
             return view('user.product.index', compact('products', 'categories'));
         }
     }
     
-    public function addProductForm() {
+    public function create() {
         $categories = Category::all();
         return view('admin.product.add-product', compact('categories'));
-    }
-
-    public function show(Product $product)
-    {
-        return view('user.product.product-overview', compact('product'));
     }
 
     public function store(Request $request) {
@@ -60,8 +53,6 @@ class ProductController extends Controller
                 'image' => $imageName,
             ]);
             
-            // dd($product); 
-            
             return redirect()->route('admin.product.index')->with('success', 'Successfully added the product');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -69,17 +60,20 @@ class ProductController extends Controller
         }
     }
 
-    public function editProductForm($id)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($id);
+        return view('user.product.product-overview', compact('product'));
+    }
+
+    public function edit(Product $product)
+    {
         $categories = Category::all();
 
         return view('admin.product.edit-product', compact('product', 'categories'));
     }
 
-    public function edit(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        // Validasi inputan dari user
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -90,24 +84,17 @@ class ProductController extends Controller
         ]);
 
         try {
-            // Temukan produk berdasarkan ID
-            $product = Product::findOrFail($id);
-
-            // Cek jika ada gambar baru
             if ($request->hasFile('image')) {
-                // Hapus gambar lama jika ada
                 if ($product->image && Storage::disk('public')->exists('products/' . $product->image)) {
                     Storage::disk('public')->delete('products/' . $product->image);
                 }
 
-                // Upload gambar baru
                 $imagePath = $request->file('image')->store('products', 'public');
                 $imageName = basename($imagePath);
             } else {
-                $imageName = $product->image; // Tetap pakai gambar lama
+                $imageName = $product->image;
             }
 
-            // Update produk
             $product->update([
                 'name' => $request->name,
                 'category_id' => $request->category_id,
@@ -123,9 +110,8 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy(Product $product) {
         try {
-            $product = Product::findOrFail($id);
             $product->delete();
 
             return redirect()->route('admin.product.index')->with('success', 'Category successfully deleted');
