@@ -32,15 +32,15 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        try
-        {
+        try {
             if (!Auth::check()) {
                 return response()->json(['error' => 'You must be logged in to add to cart'], 403);
             }
 
+            // Validasi input
             $request->validate([
-                    'product_id' => 'required|exists:products,id',
-                    'quantity' => 'required|integer|min:1',
+                'product_id' => 'required|exists:products,id',
+                'quantity' => 'required|integer|min:1',
             ]);
 
             // Ambil data produk
@@ -50,8 +50,9 @@ class CartController extends Controller
             $cart = Cart::where('user_id', Auth::id())
                         ->where('product_id', $product->id)
                         ->first();
-            // Jika produk sudah ada, update quantity
+
             if ($cart) {
+                // Jika produk sudah ada, update quantity (menambahkan quantity yang ada)
                 $cart->quantity += $request->input('quantity');
                 $cart->save();
             } else {
@@ -63,19 +64,22 @@ class CartController extends Controller
                 ]);
             }
 
-            // return response()->json(['success' => true, 'message' => 'Product added to cart!']);
             session()->flash('success', 'Product added to cart!');
 
-            return redirect()->route('product.show', $request->product_id);
-        } catch (\Exception $e) 
-        {
-             // Menangkap error dan log
-            //  Log::error('Error adding product to cart: ' . $e->getMessage());
+            // Periksa apakah user datang dari halaman detail produk atau halaman lain
+            // Jika datang dari halaman detail produk, redirect kembali ke halaman detail produk
+            if ($request->has('redirect_from_product') && $request->input('redirect_from_product') == 'true') {
+                return redirect()->route('product.index', $request->product_id);
+            }
 
-             // Mengembalikan response error jika terjadi masalah
-             return response()->json(['error' => 'There was an issue adding the product to your cart. Please try again later.'], 500);
+            // Jika tidak, arahkan ke halaman daftar produk
+            return redirect()->route('product.show');
+        } catch (\Exception $e) {
+            // Tangani error
+            return response()->json(['error' => 'There was an issue adding the product to your cart. Please try again later.'], 500);
         }
     }
+
 
     /**
      * Display the specified resource.
