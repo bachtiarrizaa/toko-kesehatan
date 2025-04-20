@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -13,12 +14,23 @@ class ProductController extends Controller
     public function index() {
         $categories = Category::all();
         $products = Product::all();
-        return view('admin.product.index', compact('products', 'categories'));
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Kalau iya:
+            return view('admin.product.index', compact('products', 'categories'));
+        } else {
+            // Kalau bukan admin atau belum login
+            return view('user.product.index', compact('products', 'categories'));
+        }
     }
     
     public function addProductForm() {
         $categories = Category::all();
         return view('admin.product.add-product', compact('categories'));
+    }
+
+    public function show(Product $product)
+    {
+        return view('user.product.product-overview', compact('product'));
     }
 
     public function store(Request $request) {

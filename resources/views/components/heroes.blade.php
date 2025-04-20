@@ -92,5 +92,3 @@
     </a>
   </div>
 </section>
-
-@include('components.footer')

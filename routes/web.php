@@ -4,27 +4,35 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\loginController;
 use App\Http\Controllers\Auth\logoutController;
 use App\Http\Controllers\Auth\registerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\OrdertController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('landing');
-})->name('home');
+Route::get('/', [LandingController::class, 'index'])->name('home');
 
+// Auth Routes
 Route::get('/register', [registerController::class, 'registerForm'])->name('register');
 Route::post('register', [registerController::class, 'register'])->name('register');
-
 Route::get('/login', [loginController::class, 'loginForm'])->name('login');
 Route::post('/login', [loginController::class, 'login'])->name('login');
-
 Route::post('/logout', [logoutController::class, 'logout'])->name('logout');
 
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+
 Route::middleware(['auth'])->group(function() {
-    Route::get('/customer', [CustomerController::class, 'index'])->name('user.index');
+    // Route::get('/customer', [CustomerController::class, 'index'])->name('user.index');
+
+    Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    // Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+
 });
 
 

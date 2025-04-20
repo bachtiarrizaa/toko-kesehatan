@@ -39,7 +39,7 @@ class registerController extends Controller
                 'telp' => $request->telp,
                 'paypalId' => $request->paypalId,
                 'city' => $request->city,
-                'role_id' => 1, // Ini role customer ya btw
+                'role_id' => 2, // Ini role customer ya btw
                 'password' => Hash::make($request->password),
             ]);
     

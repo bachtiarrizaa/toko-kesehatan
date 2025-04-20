@@ -1,7 +1,7 @@
 <header class="sticky top-0 z-50 bg-white" x-data="{ isOpen: false, isUserOpen: false}">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 border-b border-grey-700" aria-label="Global">
       <div class="flex lg:flex-1">
-        <a href="#" class="-m-1.5 p-1.5">
+        <a href="{{ route('home') }}" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
           <img class="h-20 md:h-20 w-auto sm:h-12" src="{{ asset('assets/images/logo/careline.png') }}" alt="">
         </a>
@@ -17,20 +17,20 @@
       <div class="hidden lg:flex lg:flex-col items-center gap-4"> 
         <div class="flex gap-x-12">
           <a href="{{ route('home') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
-          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Category</a>
+          <a href="{{ route('product.index') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
           <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
           <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
           <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a>
         </div>
     
         <!-- Search bar -->
-        <div class="relative w-full max-w-xs">
+        {{-- <div class="relative w-full max-w-xs">
           <input type="text" placeholder="Search..." class="w-full py-2 pl-4 pr-10 text-gray-700 bg-white border rounded-lg focus:border-primary-700 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-40">
           
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
             <ion-icon name="search-outline"></ion-icon>
           </div>
-        </div>
+        </div> --}}
 
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end items-center">
@@ -38,7 +38,7 @@
           <div>
             <div class="flex items-center">
               {{-- <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-indigo-600">{{ Auth::user()->username }}</h2> --}}
-              <a href="#" class="text-2xl hover:text-primary-700 mr-4">
+              <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700 mr-4">
                 <ion-icon name="cart-outline"></ion-icon>
               </a>
               <div class="relative ml-3 hover:text-primary-700">
@@ -82,7 +82,7 @@
             </div>
           </div>
         @else
-          <a href="#" class="text-2xl hover:text-primary-700 mr-4">
+          <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700 mr-4">
               <ion-icon name="cart-outline"></ion-icon>
           </a>
           <a href="{{ route('login') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Sign in <span aria-hidden="true">&rarr;</span></a>
@@ -107,7 +107,7 @@
           </button>
         </div>
         <!-- Search bar -->
-        <div class="relative mt-6">
+        {{-- <div class="relative mt-6">
           <input 
             type="text" 
             placeholder="Search..." 
@@ -116,12 +116,12 @@
           <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
             <ion-icon name="search-outline"></ion-icon>
           </div>
-        </div>
+        </div> --}}
         <div class="mt-4 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Category</a>
+              <a href="{{ route('home') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
+              <a href="{{ route('product.index') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a>
@@ -130,7 +130,7 @@
             <div class="flex justify-center items-center py-4">
               @if (Auth::check())
                 <div class="flex items-center justify-center ">
-                  <a href="#" class="text-2xl hover:text-primary-700">
+                  <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700">
                     <ion-icon name="cart-outline"></ion-icon>
                   </a>
                   <div class="mx-8">
@@ -176,7 +176,7 @@
                   <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-primary-400">{{ Auth::user()->username }}</h2>
                 </div>
               @else
-                <a href="#" class="text-2xl hover:text-primary-700 mr-4">
+                <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700 mr-4">
                   <ion-icon name="cart-outline"></ion-icon>
                 </a>
                 <div class="mx-8">
