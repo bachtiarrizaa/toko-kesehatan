@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $query = Product::query();
+    
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+    
+        if ($request->has('search') && $request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
         $categories = Category::all();
-        $products = Product::all();
+        $products = $query->paginate(12); // <-- ini yang digunakan, bukan Product::all()
+    
         if (Auth::check() && Auth::user()->role_id === 1) {
             return view('admin.product.index', compact('products', 'categories'));
         } else {
