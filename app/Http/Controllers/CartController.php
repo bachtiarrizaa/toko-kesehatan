@@ -37,26 +37,21 @@ class CartController extends Controller
                 return response()->json(['error' => 'You must be logged in to add to cart'], 403);
             }
 
-            // Validasi input
             $request->validate([
                 'product_id' => 'required|exists:products,id',
                 'quantity' => 'required|integer|min:1',
             ]);
 
-            // Ambil data produk
             $product = Product::findOrFail($request->input('product_id'));
 
-            // Cek jika produk sudah ada di cart untuk user yang sama
             $cart = Cart::where('user_id', Auth::id())
                         ->where('product_id', $product->id)
                         ->first();
 
             if ($cart) {
-                // Jika produk sudah ada, update quantity (menambahkan quantity yang ada)
                 $cart->quantity += $request->input('quantity');
                 $cart->save();
             } else {
-                // Jika produk belum ada di cart, tambahkan item baru
                 Cart::create([
                     'user_id' => Auth::id(),
                     'product_id' => $product->id,
@@ -66,16 +61,13 @@ class CartController extends Controller
 
             session()->flash('success', 'Product added to cart!');
 
-            // Periksa apakah user datang dari halaman detail produk atau halaman lain
-            // Jika datang dari halaman detail produk, redirect kembali ke halaman detail produk
             if ($request->has('redirect_from_product') && $request->input('redirect_from_product') == 'true') {
                 return redirect()->route('product.index', $request->product_id);
             }
 
-            // Jika tidak, arahkan ke halaman daftar produk
             return redirect()->route('product.show');
         } catch (\Exception $e) {
-            // Tangani error
+
             return response()->json(['error' => 'There was an issue adding the product to your cart. Please try again later.'], 500);
         }
     }
@@ -87,14 +79,11 @@ class CartController extends Controller
     public function show(Cart $cart)
     {
         try {
-            // Ambil data cart milik user yang sedang login
+
             $cartItems = Cart::where('user_id', Auth::id())->get();
             return view('cart.index', compact('cartItems'));
         } catch (\Exception $e) {
-            // Menangkap error dan log
-            // Log::error('Error fetching cart items: ' . $e->getMessage());
 
-            // Mengembalikan response error jika terjadi masalah
             return response()->json(['error' => 'There was an issue fetching your cart. Please try again later.'], 500);
         }
     }
@@ -112,8 +101,48 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
-        //
+        try {
+            // Validasi input
+            $request->validate([
+                'quantity' => 'required|integer|min:1',
+            ]);
+
+            // Update quantity
+            $cart->quantity = $request->quantity;
+            $cart->save();
+
+            return redirect()->back()->with('success', 'Quantity updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal update quantity: ' . $e->getMessage());
+        }
     }
+
+    // public function updateQuantity(Request $request, $cartId)
+    // {
+    //     try {
+    //         // Validasi inputan
+    //         $request->validate([
+    //             'quantity' => 'required|integer|min:1', // Pastikan quantity valid
+    //         ]);
+
+    //         // Ambil data cart berdasarkan cartId
+    //         $cartItem = Cart::where('id', $cartId)->where('user_id', Auth::id())->firstOrFail();
+
+    //         // Update quantity
+    //         $cartItem->quantity = $request->input('quantity');
+    //         $cartItem->save();
+
+    //         return response()->json([
+    //             'success' => 'Quantity updated successfully!',
+    //             'new_quantity' => $cartItem->quantity
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'error' => 'Failed to update quantity: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
 
     /**
      * Remove the specified resource from storage.

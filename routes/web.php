@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrdertController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AuthAdmin;
@@ -30,9 +31,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    // Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
 
 });
 
@@ -55,7 +58,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::put('/admin/product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
     Route::delete('/admin/product/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
 
+    // Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
 
 });
-// Route::get('/admin/order', [OrdertController::class, 'index'])->name('admin.order.index');
 // Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');

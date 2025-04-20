@@ -26,9 +26,13 @@
                                 <!-- Quantity Controls -->
                                 <div class="flex items-center justify-between md:order-3 md:justify-end">
                                     <div class="flex items-center">
-                                        <button type="button" class="decrement-btn px-2 py-1 border rounded" data-id="{{ $cart->id }}">-</button>
-                                        <input type="text" id="counter-input-{{ $cart->id }}" name="quantity" value="{{ $cart->quantity }}" data-input-counter class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" readonly />
-                                        <button type="button" class="increment-btn px-2 py-1 border rounded" data-id="{{ $cart->id }}">+</button>
+                                        <form action="{{ route('cart.update', $cart->id) }}" method="POST" class="flex items-center">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="decrement-btn px-2 py-1 border rounded" data-id="{{ $cart->id }}">-</button>
+                                            <input type="text" id="counter-input-{{ $cart->id }}" name="quantity" value="{{ $cart->quantity }}" data-input-counter class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" readonly />
+                                            <button type="submit" class="increment-btn px-2 py-1 border rounded" data-id="{{ $cart->id }}">+</button>
+                                        </form>
                                     </div>
                                     <div class="text-end md:order-4 md:w-32">
                                         <p class="text-base font-bold text-gray-900 dark:text-white"
@@ -85,7 +89,10 @@
                         </dl>
                     </div>
 
-                    <a href="#" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</a>
+                    <a href="{{ route('order.index') }}"
+                        class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        >Proceed to Checkout
+                    </a>
 
                     <div class="flex items-center justify-center gap-2">
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">or</span>
