@@ -37,9 +37,11 @@ Route::middleware(['auth'])->group(function() {
     Route::patch('/cart/{id}/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-
-
+    Route::get('/ordercui', [OrderController::class, 'index'])->name('order.index');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
+    Route::get('/order/{id}/print', [OrderController::class, 'printPDF'])->name('order.print');
+
 
 });
 

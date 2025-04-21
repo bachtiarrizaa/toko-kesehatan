@@ -1,79 +1,45 @@
 @extends('layouts.main')
 
 @section('container')
-    <section class="bg-white py-8 antialiased dark:bg-gray-900">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Order Summary</h2>
-    
-        <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-                <div class="space-y-6">
-                    @foreach ($cartItems as $item)
-                    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-                        <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                            <a href="#" class="shrink-0 md:order-1">
-                                <img class="h-20 w-20 dark:hidden" src="{{ $item->product->image_url ?? 'https://via.placeholder.com/80' }}" alt="{{ $item->product->name }}" />
-                            </a>
-                            <div class="flex items-center justify-between md:order-3 md:justify-end">
-                                <div class="flex items-center">
-                                    <input type="text" class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 dark:text-white"
-                                        value="{{ $item->quantity }}" readonly />
-                                </div>
-                                <div class="text-end md:order-4 md:w-32">
-                                    <p class="text-base font-bold text-gray-900 dark:text-white">
-                                        Rp{{ number_format($item->product->price * $item->quantity, 2) }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                                <p class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ $item->product->name }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+<div class="max-w-3xl mx-auto p-4 bg-white rounded shadow">
+    <h2 class="text-xl font-bold mb-4 text-green-600">Order Berhasil!</h2>
 
-                </div>
-            </div>
-    
-            <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-                <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                    <p class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
-        
-                    <div class="space-y-4">
-                    <div class="space-y-2">
-                        <dl class="flex items-center justify-between gap-4">
-                            <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$7,592.00</dd>
-                        </dl>
-        
-                        <dl class="flex items-center justify-between gap-4">
-                            <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$799</dd>
-                        </dl>
-                    </div>
-        
-                    <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                        <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                        <dd class="text-base font-bold text-gray-900 dark:text-white">$8,191.00</dd>
-                    </dl>
-                    </div>
-        
-                    <a href="#" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</a>
-        
-                    <div class="flex items-center justify-center gap-2">
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> or </span>
-                    <a href="{{ route('cart.index') }}" title="" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
-                        Back to cart
-                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                        </svg>
-                    </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
+    {{-- Informasi User --}}
+    <div class="mb-4">
+        <p class="mb-1"><strong>Nama Pemesan:</strong> {{ $order->user->name }}</p>
+        <p class="mb-1"><strong>Email:</strong> {{ $order->user->email }}</p>
+    </div>
+
+    {{-- Info Order --}}
+    <p class="mb-2"><strong>Order ID:</strong> {{ $order->id }}</p>
+    <p class="mb-2"><strong>Tanggal Order:</strong> {{ $order->created_at->format('d M Y, H:i') }}</p>
+    <p class="mb-2"><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
+    <p class="mb-2"><strong>Metode Pembayaran:</strong> {{ strtoupper($order->payment_method) }}</p>
+
+    {{-- Daftar Produk --}}
+    <h3 class="font-semibold mb-2 mt-4">Produk yang dibeli:</h3>
+    <ul class="divide-y divide-gray-200">
+        @foreach ($order->items as $item)
+            <li class="py-2 flex justify-between">
+                <span>{{ $item->product->name }} x {{ $item->quantity }}</span>
+                <span>${{ number_format($item->price * $item->quantity, 2) }}</span>
+            </li>
+        @endforeach
+    </ul>
+
+    {{-- Perhitungan Total --}}
+    @php
+        $subtotal = $order->total_price;
+        $tax = $subtotal * 0.10;
+        $totalWithTax = $subtotal + $tax;
+    @endphp
+
+    <div class="mt-4 border-t pt-3 space-y-1 text-right">
+        <p><span class="font-semibold">Subtotal:</span> Rp {{ number_format($subtotal, 2) }}</p>
+        <p><span class="font-semibold">PPN (10%):</span> Rp {{ number_format($tax, 2) }}</p>
+        <p class="text-lg font-bold border-t pt-2">Total Akhir: Rp {{ number_format($totalWithTax, 2) }}</p>
+    </div>
+
+    <a href="{{ route('home') }}" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kembali ke Home</a>
+</div>
 @endsection
