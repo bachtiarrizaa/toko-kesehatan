@@ -29,32 +29,26 @@ Route::post('/logout', [logoutController::class, 'logout'])->name('logout');
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 
 Route::middleware(['auth'])->group(function() {
-    // Route::get('/customer', [CustomerController::class, 'index'])->name('user.index');
 
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-    // Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::patch('/cart/{id}/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-    // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-    Route::get('/ordercui', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
     Route::get('/order/{id}/print', [OrderController::class, 'printPDF'])->name('order.print');
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
-    Route::post('/order/feedback/{orderItem}', [OrderController::class, 'storeFeedback'])->name('order.feedback.store');
+    // Route::post('/order/feedback/{orderItem}', [OrderController::class, 'storeFeedback'])->name('order.feedback.store');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    // Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
     Route::get('/history-order', [HistoryController::class, 'index'])->name('history-order');
     Route::post('/history-order/{orderId}/cancel', [HistoryController::class, 'cancel'])->name('history-order.cancel');
 
-
-    // Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 });
@@ -63,7 +57,6 @@ Route::middleware(['auth'])->group(function() {
 Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-    // Category Routes
     Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/admin/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
     Route::post('/admin/category', [CategoryController::class, 'store'])->name('admin.category.store');
@@ -82,5 +75,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::patch('/admin/order/{order}/update', [OrderController::class, 'update'])->name('admin.order.update');
 
     Route::get('admin/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
+    Route::get('/admin/feedback/{feedback}/edit', [FeedbackController::class, 'edit'])->name('admin.feedback.edit');
+    Route::put('/admin/feedback/{feedback}', [FeedbackController::class, 'update'])->name('admin.feedback.update');
+    Route::delete('admin/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
 });
-// Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');

@@ -21,7 +21,7 @@ class Feedback extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function order()
     {
         return $this->belongsTo(Product::class);
     }

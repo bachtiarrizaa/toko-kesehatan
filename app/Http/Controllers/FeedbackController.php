@@ -13,21 +13,8 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        // try {
-        //     if (auth()->user()->role == 'admin') {
-        //         $feedbacks = Feedback::with(['user', 'product'])->latest()->get();
-        //         return view('admin.feedback.index', compact('feedbacks'));
-        //     } else {
-        //         $feedbacks = Feedback::with('product')
-        //             ->where('user_id', auth()->id())
-        //             ->latest()
-        //             ->get();
-        //         return view('user.product.feedback', compact('feedbacks'));
-        //     }
-        // } catch (\Exception $e) {
-        //     // Bisa diarahkan ke halaman error atau tampilkan pesan flash
-        //     return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        // }
+        $feedbacks = Feedback::with(['order', 'user'])->get();
+        return view('admin.feedback.index', compact('feedbacks'));
     }
 
     /**
@@ -43,7 +30,6 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all()); 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
             'message' => 'required|string',
@@ -74,7 +60,7 @@ class FeedbackController extends Controller
      */
     public function edit(Feedback $feedback)
     {
-        //
+        return view('admin.feedback', compact('feedback'));
     }
 
     /**
@@ -82,7 +68,17 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, Feedback $feedback)
     {
-        //
+        $request->validate([
+            'message' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $feedback->update([
+            'message' => $request->message,
+            'rating' => $request->rating,
+        ]);
+
+        return redirect()->route('admin.feedback')->with('success', 'Feedback updated successfully');
     }
 
     /**
@@ -90,6 +86,12 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        //
+        try {
+            $feedback->delete();
+
+            return redirect()->route('admin.feedback.index')->with('success', 'Category successfully deleted');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
     }
 }

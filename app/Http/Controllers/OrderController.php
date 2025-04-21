@@ -18,7 +18,6 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // return view('user.order.order-success');
         if (auth()->user()->role_id === 1) {
             $orders = Order::with('user')->latest()->get();
             return view('admin.order.index', compact('orders'));
@@ -60,7 +59,6 @@ class OrderController extends Controller
                 return $cart->product->price * $cart->quantity;
             });
 
-            // Buat order terlebih dahulu
             $order = Order::create([
                 'user_id' => $user->id,
                 'total_price' => $totalPrice,
@@ -68,7 +66,6 @@ class OrderController extends Controller
                 'status' => 'pending',
             ]);
 
-            // Simpan item ke order_items
             foreach ($carts as $cart) {
                 Order_Item::create([
                     'order_id' => $order->id,
@@ -138,7 +135,6 @@ class OrderController extends Controller
     {
 
         $user = Auth::user();
-        // Mengambil data chechout yang terakhir kali
         $order = Order::with(['user', 'items.product'])
             ->where('user_id', $user->id)
             ->latest()
