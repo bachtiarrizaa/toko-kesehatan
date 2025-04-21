@@ -7,10 +7,12 @@ use App\Http\Controllers\Auth\registerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrdertController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +45,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/order/{id}/print', [OrderController::class, 'printPDF'])->name('order.print');
 
 
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    // Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
+    Route::get('/history-order', [HistoryController::class, 'index'])->name('history-order');
+    Route::post('/history-order/{orderId}/cancel', [HistoryController::class, 'cancel'])->name('history-order.cancel');
 });
 
 
