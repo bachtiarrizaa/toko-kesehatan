@@ -1,5 +1,4 @@
 @extends('layouts.main')
-
 @section('container')
     <div class="container mx-auto py-6">
         <h2 class="text-2xl font-semibold">Order Details</h2>
@@ -14,76 +13,7 @@
                 <p class="text-md font-semibold">Order Date: {{ $order->created_at->format('d-m-Y') }}</p>
                 <p class="text-md font-semibold">Total Price: Rp {{ number_format($order->total_price, 2) }}</p>
             </div>
-
-            <h3 class="text-xl font-semibold mb-4">Order Items</h3>
-
-            <table class="min-w-full table-auto">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Image</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Feedback</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
                 <tbody>
-                    {{-- @foreach ($order->orderItems as $orderItem)
-                        <tr>
-                            <td>{{ $orderItem->product->name }}</td>
-                            <td><img src="{{ $orderItem->product->image_url }}" alt="{{ $orderItem->product->name }}" class="w-12 h-12"></td>
-                            <td>{{ $orderItem->quantity }}</td>
-                            <td>${{ number_format($orderItem->price, 2) }}</td>
-                            <td>
-                                @if ($orderItem->product->feedbacks->isNotEmpty())
-                                    <ul>
-                                        @foreach ($orderItem->product->feedbacks as $feedback)
-                                            <li>{{ $feedback->message }}</li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <span>No feedback yet</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($orderItem->product->feedbacks->isNotEmpty())
-                                    <ul>
-                                        @foreach ($orderItem->product->feedbacks as $feedback)
-                                            <li>{{ $feedback->rating }} Stars</li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <span>No rating yet</span>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach --}}
-                    {{-- @foreach ($order->orderItems as $orderItem)
-                        <tr>
-                            <td>{{ $orderItem->product->name }}</td>
-                            <td><img src="{{ $orderItem->product->image_url }}" class="w-12 h-12" /></td>
-                            <td>{{ $orderItem->quantity }}</td>
-                            <td>${{ number_format($orderItem->price, 2) }}</td>
-                            <td>${{ number_format($orderItem->price * $orderItem->quantity, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">
-                                <form action="{{ route('order.feedback.store', $orderItem->id) }}" method="POST" class="mt-2 bg-gray-100 p-3 rounded">
-                                    @csrf
-                                    <div class="mb-2">
-                                        <label class="block text-sm font-medium">Your Feedback</label>
-                                        <textarea name="feedback" rows="2" class="w-full rounded border-gray-300">{{ $orderItem->feedback }}</textarea>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="block text-sm font-medium">Rating</label>
-                                        <input type="number" name="rating" min="1" max="5" class="w-20 rounded border-gray-300" value="{{ $orderItem->rating }}">
-                                    </div>
-                                    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Save</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach --}}
 
                     @foreach ($order->orderItems as $item)
                         <div class="mb-4 border p-4 rounded">
