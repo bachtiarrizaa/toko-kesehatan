@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
@@ -42,26 +43,23 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        try {
-            $request->validate([
-                'product_id' => 'required|exists:products,id',
-                'message' => 'required|string',
-                'rating' => 'required|integer|min:1|max:5',
-            ]);
-    
-            Feedback::create([
-                'user_id' => auth()->id(),
-                'product_id' => $request->product_id,
-                'message' => $request->message,
-                'rating' => $request->rating,
-            ]);
-    
-            return back()->with('success', 'Feedback berhasil dikirim!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menyimpan feedback: ' . $e->getMessage());
-        }
+        // dd($request->all()); 
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'message' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        Feedback::create([
+            'user_id' => Auth::id(),
+            'order_id' => $request->order_id,
+            'message' => $request->message,
+            'rating' => $request->rating,
+        ]);
+
+        return redirect()->back()->with('success', 'Ulasan berhasil dikirim!');
     }
+
 
     /**
      * Display the specified resource.

@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/history-order/{orderId}/cancel', [HistoryController::class, 'cancel'])->name('history-order.cancel');
 
 
-    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+    // Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 });

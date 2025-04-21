@@ -110,7 +110,9 @@
                                                     <select name="status" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm">
                                                         <option disabled selected>Update Status</option>
                                                         <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                        <option value="packed" {{ $order->status === 'packed' ? 'selected' : '' }}>Packed</option>
+                                                        <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                        <option value="accepted" {{ $order->status === 'accepted' ? 'selected' : '' }}>accepted</option>
                                                         <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                                     </select>
                                                 </form>
