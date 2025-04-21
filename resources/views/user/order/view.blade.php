@@ -25,11 +25,11 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                       <div class="flex-1">
                         <a href="#" class="text-base font-medium text-gray-900 hover:underline dark:text-white">
-                          PC system All in One APPLE iMac (2023) Apple M3, 24" Retina 4.5K, 8GB, SSD 256GB, 10-core GPU
+                            {{ $item->product->name }}
                         </a>
                       </div>
                       <div class="flex items-center gap-2">
-                        <input type="text" id="counter-input" value="2" class="w-14 rounded-md border border-gray-300 p-1 text-center text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                        <p id="counter-input" value="2" class="w-14 rounded-md border border-gray-300 p-1 text-center text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
                         <p class="text-base font-bold text-gray-900 dark:text-white">Rp {{ number_format($order->total_price, 2) }}</p>
                       </div>
                     </div>
