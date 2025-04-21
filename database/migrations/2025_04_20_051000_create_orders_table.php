@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('total_price', 10, 2);
-            $table->enum('payment_method', ['COD', 'Debit Card', 'Credit Card', 'Paypal']);
-            $table->enum('status', ['pending', 'ship', 'cancelled']);
+            $table->enum('payment_method', ['cod', 'credit_card', 'paypal']);
+            $table->enum('status', ['pending', 'shipped', 'cancelled']);
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,11 +13,34 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // $user = Auth::user();
+    // $carts = $user->carts()->with('product')->get();
     public function index()
     {
-        $user = Auth::user();
-        $carts = $user->carts()->with('product')->get();
-        return view('user.cart.index', compact('carts'));
+        try {
+            $userId = Auth::id(); // atau auth()->id()
+            
+            // Ambil semua cart berdasarkan user_id
+            $carts = Cart::where('user_id', $userId)->with('product')->get();
+            
+            // Hitung total harga dan pajak
+            $originalPrice = $carts->reduce(function ($carry, $cart) {
+                return $carry + ($cart->product->price * $cart->quantity);
+            }, 0); // 0 adalah nilai awal untuk total harga asli
+
+            // Misalkan tax adalah 10% dari harga asli
+            $tax = $originalPrice * 0.1;
+
+            // Total harga = original price + tax
+            $totalPrice = $originalPrice + $tax;
+
+            // Kembalikan ke view dengan data cart, original price, tax, dan total price
+            return view('user.cart.cart-view', compact('carts', 'originalPrice', 'tax', 'totalPrice'));
+
+        } catch (\Exception $e) {
+            // Menangani error
+            return back()->withErrors(['message' => 'Gagal memuat keranjang.']);
+        }
     }
 
     /**
@@ -88,6 +112,45 @@ class CartController extends Controller
         }
     }
 
+    public function checkout(Request $request)
+    {
+        try {
+            $userId = Auth::id();  // Mendapatkan ID pengguna yang sedang login
+            
+            // Ambil data keranjang untuk pengguna yang sedang login
+            $carts = Cart::where('user_id', $userId)->get();
+
+            if ($carts->isEmpty()) {
+                return redirect()->route('cart.index')->with('error', 'Keranjang Anda kosong.');
+            }
+
+            // Hitung total harga dan pajak
+            $totalPrice = $carts->sum(function($cart) {
+                return $cart->product->price * $cart->quantity;
+            });
+
+            $tax = $totalPrice * 0.1; // Misalnya 10% pajak, Anda bisa sesuaikan
+
+            // Simpan data order ke tabel 'orders'
+            $order = Order::create([
+                'user_id' => $userId,
+                'total_price' => $totalPrice + $tax,
+                'payment_method' => 'default', // Misalnya 'default', bisa diubah sesuai metode pembayaran yang dipilih
+                'status' => 'ok', // Status sementara
+            ]);
+
+            // Setelah berhasil menyimpan order, kita bisa menghapus semua item dari keranjang
+            Cart::where('user_id', $userId)->delete();
+
+            // Redirect ke halaman konfirmasi atau sukses
+            return redirect()->route('order.confirmation')->with('success', 'Checkout berhasil!');
+
+        } catch (\Exception $e) {
+            return redirect()->route('cart.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -96,26 +159,64 @@ class CartController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
+    public function updateQuantity(Request $request, $id)
     {
         try {
-            // Validasi input
+            $cart = Cart::findOrFail($id);
+
             $request->validate([
-                'quantity' => 'required|integer|min:1',
+                'quantity' => 'required|integer|min:1'
             ]);
 
-            // Update quantity
             $cart->quantity = $request->quantity;
             $cart->save();
 
-            return redirect()->back()->with('success', 'Quantity updated successfully!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Quantity updated successfully',
+                'total_price' => number_format($cart->product->price * $cart->quantity, 0, ',', '.')
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cart item not found.'
+            ], 404);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid quantity.',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal update quantity: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    // public function update(Request $request, Cart $cart)
+    // {
+    //     try {
+    //         // Validasi input
+    //         $request->validate([
+    //             'quantity' => 'required|integer|min:1',
+    //         ]);
+
+    //         // Update quantity
+    //         $cart->quantity = $request->quantity;
+    //         $cart->save();
+
+    //         return redirect()->back()->with('success', 'Quantity updated successfully!');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Gagal update quantity: ' . $e->getMessage());
+    //     }
+    // }
 
     // public function updateQuantity(Request $request, $cartId)
     // {
@@ -150,16 +251,17 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         try {
-            // Pastikan cart milik user yang sedang login
-            if ($cart->user_id !== Auth::id()) {
-                return abort(403, 'Unauthorized');
+            $userId = Auth::id();  // Ambil ID user yang sedang login
+    
+            // Pastikan cart yang akan dihapus milik pengguna yang sedang login
+            if ($cart->user_id === $userId) {
+                $cart->delete();  // Hapus item dari cart
+                return redirect()->route('cart.index')->with('success', 'Item removed successfully.');
             }
     
-            $cart->delete();
-    
-            return redirect()->route('cart.index')->with('success', 'Product removed from cart');
+            return redirect()->route('cart.index')->with('error', 'Item not found or you are not authorized to delete this item.');
         } catch (\Exception $e) {
-            return redirect()->route('cart.index')->with('error', 'Failed to remove product: ' . $e->getMessage());
+            return redirect()->route('cart.index')->with('error', 'An error occurred: ' . $e->getMessage());
         }
-    }
+    }    
 }

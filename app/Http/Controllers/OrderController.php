@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Order_Item;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -31,7 +34,7 @@ class OrderController extends Controller
                 return $item->product->price * $item->quantity;
             });
     
-            $tax = $originalPrice * 0.1; // contoh 10% pajak
+            $tax = $originalPrice * 0.1;
             $total = $originalPrice + $tax;
     
             return view('user.order.order-overview', compact('cartItems', 'originalPrice', 'tax', 'total'));
@@ -54,7 +57,55 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input terlebih dahulu
+        $request->validate([
+            'payment_method' => 'required|in:cod,credit_card,paypal',
+        ]);
+
+        try {
+            $user = Auth::user();
+            $carts = Cart::where('user_id', $user->id)->get();
+
+            if ($carts->isEmpty()) {
+                return back()->with('error', 'Your cart is empty.');
+            }
+
+            DB::beginTransaction();
+
+            $totalPrice = $carts->sum(function ($cart) {
+                return $cart->product->price * $cart->quantity;
+            });
+
+            // Buat order terlebih dahulu
+            $order = Order::create([
+                'user_id' => $user->id,
+                'total_price' => $totalPrice,
+                'payment_method' => $request->payment_method,
+                'status' => 'pending',
+            ]);
+
+            // Simpan item ke order_items
+            foreach ($carts as $cart) {
+                Order_Item::create([
+                    'order_id' => $order->id,
+                    'product_id' => $cart->product_id,
+                    'quantity' => $cart->quantity,
+                    'price' => $cart->product->price,
+                ]);
+            }
+
+            // Kosongkan cart user
+            Cart::where('user_id', $user->id)->delete();
+
+            DB::commit();
+
+            return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Order placement failed: ' . $e->getMessage());
+
+            return back()->with('error', 'An error occurred: ' . $e->getMessage())->withInput();
+        }
     }
 
     /**

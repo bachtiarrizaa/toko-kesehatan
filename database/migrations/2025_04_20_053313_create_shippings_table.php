@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->string('address');
+            $table->enum('shipping_status', ['processing', 'shipped', 'delivered']);
             $table->timestamps();
         });
     }

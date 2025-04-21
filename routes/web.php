@@ -32,10 +32,14 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-    Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
+    // Route::put('/cart/update/{cart}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::patch('/cart/{id}/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+    // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+
+
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 
 });
 
