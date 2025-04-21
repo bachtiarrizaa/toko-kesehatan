@@ -16,30 +16,6 @@ class ProfileController extends Controller
         return view('user.profile.index', compact('user'));
     }
 
-    // public function cancel($orderId)
-    // {
-    //     try {
-    //         // Mencari order berdasarkan ID
-    //         $order = Order::findOrFail($orderId);
-
-    //         // Cek apakah status order adalah 'pending'
-    //         if ($order->status !== 'pending') {
-    //             return redirect()->back()->with('error', 'Only pending orders can be canceled.');
-    //         }
-
-    //         // Mengubah status order menjadi 'canceled'
-    //         $order->status = 'canceled';
-    //         $order->save();
-
-    //         // Mengarahkan kembali dengan pesan sukses
-    //         return redirect()->back()->with('success', 'Order has been canceled.');
-    //     } catch (\Exception $e) {
-    //         // Jika terjadi error, kembalikan pesan error
-    //         return redirect()->back()->with('error', 'An error occurred while canceling the order: ' . $e->getMessage());
-    //     }
-    // }
-
-
     /**
      * Show the form for creating a new resource.
      */

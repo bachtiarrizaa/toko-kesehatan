@@ -5,7 +5,7 @@
             <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li class="inline-flex items-center">
-                    <a href="#" class="inline-flex items-center text-lg font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Order Information</a>
+                    <a href="#" class="inline-flex items-center text-lg font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Feedback Information</a>
                 </li>
             </nav> 
             <section class="bg-gray-50 dark:bg-gray-900">
@@ -57,22 +57,16 @@
                                                 Number
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Order ID
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
                                                 User Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Order Date
+                                                Product Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Total Price
+                                                Message
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Status
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                
+                                                Rating
                                             </th>
                                             <th scope="col" class="px-6 py-3 w-44">
                                                 Action
@@ -80,43 +74,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($orders as $order)
+                                        {{-- @foreach ($products as $product) --}}
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                             <th class="px-6 py-4">
-                                                {{ $loop->iteration }}
+                                                {{-- {{ $loop->iteration }} --}}
                                             </th>
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ $order->id }}
+                                                {{-- {{ $product->name }} --}}
                                             </th>
                                             <th class="px-6 py-4">
-                                                {{ $order->user->name }}
+                                                {{-- {{ $product->category->name }} --}}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {{ $order->created_at->format('d-m-Y') }}
+                                                {{-- {{ $product->stock }} --}}
                                             </td>
                                             <td class="px-6 py-4">
-                                                Rp {{ number_format($order->total_price, 2) }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $order->status }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                View
+                                                {{-- {{ $product->price }} --}}
                                             </td>
                                             <td class="px-6 py-4 w-44">
-                                                <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
+                                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4">
+                                                    Edit
+                                                </a>
+                                                <form action="#" method="POST" onsubmit="return confirm('Are you sure to remove this item?');">
                                                     @csrf
-                                                    @method('PATCH')
-                                                    <select name="status" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm">
-                                                        <option disabled selected>Update Status</option>
-                                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                                        <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                                    </select>
+                                                    @method('DELETE')
+                                                    <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                                        Remove
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        {{-- @endforeach --}}
                                     </tbody>
                                 </table>
                             </div>

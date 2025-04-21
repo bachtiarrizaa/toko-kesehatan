@@ -98,14 +98,45 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        try {
+            // Pastikan hanya user yang terkait dengan order yang bisa mengaksesnya
+            if (auth()->user()->id !== $order->user_id) {
+                abort(403, 'You are not authorized to view this order');
+            }
+    
+            // Pass order data ke view
+            return view('user.order.show', compact('order'));
+    
+        } catch (\Exception $e) {
+            // Jika ada error, bisa menangani dengan try-catch
+            return redirect()->route('history-order')->with('error', 'Failed to load order details');
+        }
     }
+
+    public function storeFeedback(Request $request, Order_Item $orderItem)
+    {
+        $request->validate([
+            'feedback' => 'nullable|string',
+            'rating' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        // Hanya pemilik order yang bisa mengisi feedback
+        if ($orderItem->order->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $orderItem->update([
+            'feedback' => $request->feedback,
+            'rating' => $request->rating,
+        ]);
+
+        return back()->with('success', 'Feedback submitted!');
+    }
+
 
     public function success($id)
     {
-        // $order = Order::with('items.product')->findOrFail($id);
 
-        // return view('user.order.order-success', compact('order'));
         $user = Auth::user();
         // Mengambil data chechout yang terakhir kali
         $order = Order::with(['user', 'items.product'])

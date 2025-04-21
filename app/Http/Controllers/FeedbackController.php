@@ -12,7 +12,21 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        // try {
+        //     if (auth()->user()->role == 'admin') {
+        //         $feedbacks = Feedback::with(['user', 'product'])->latest()->get();
+        //         return view('admin.feedback.index', compact('feedbacks'));
+        //     } else {
+        //         $feedbacks = Feedback::with('product')
+        //             ->where('user_id', auth()->id())
+        //             ->latest()
+        //             ->get();
+        //         return view('user.product.feedback', compact('feedbacks'));
+        //     }
+        // } catch (\Exception $e) {
+        //     // Bisa diarahkan ke halaman error atau tampilkan pesan flash
+        //     return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        // }
     }
 
     /**
@@ -28,7 +42,25 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        try {
+            $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'message' => 'required|string',
+                'rating' => 'required|integer|min:1|max:5',
+            ]);
+    
+            Feedback::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id,
+                'message' => $request->message,
+                'rating' => $request->rating,
+            ]);
+    
+            return back()->with('success', 'Feedback berhasil dikirim!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan feedback: ' . $e->getMessage());
+        }
     }
 
     /**

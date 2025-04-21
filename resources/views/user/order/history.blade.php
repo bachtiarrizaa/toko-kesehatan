@@ -67,15 +67,16 @@
                         <!-- Cek apakah statusnya pending -->
                         @if($order->status === 'pending')
                             <!-- Tombol Cancel Order -->
+                            <a href="#" class="text-blue-600 hover:text-blue-800 mr-8">View</a>
                             <form action="{{ route('history-order.cancel', $order->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 <button type="submit" class="text-red-600 hover:text-red-800">Cancel Order</button>
                             </form>
                             <!-- Tombol View -->
-                            <a href="#" class="text-blue-600 hover:text-blue-800 ml-4">View</a>
                         @else
                             <!-- Hanya tombol View untuk status selain pending -->
-                            <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
+                            <a href="{{ route('order.show', $order->id) }}" class="text-blue-600 hover:text-blue-800 mr-8">View</a>
+                            <a href="{{ route('feedback') }}" class="text-green-600 hover:text-green-800">Feedback</a>
                         @endif
                     </dd>
                 </dl>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\registerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\OrderController;
@@ -43,13 +44,19 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
     Route::get('/order/{id}/print', [OrderController::class, 'printPDF'])->name('order.print');
-
+    Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::post('/order/feedback/{orderItem}', [OrderController::class, 'storeFeedback'])->name('order.feedback.store');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     // Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
     Route::get('/history-order', [HistoryController::class, 'index'])->name('history-order');
     Route::post('/history-order/{orderId}/cancel', [HistoryController::class, 'cancel'])->name('history-order.cancel');
+
+
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
 });
 
 
@@ -74,6 +81,6 @@ Route::middleware(['auth', AuthAdmin::class])->group(function() {
     Route::get('/admin/order', [OrderController::class, 'index'])->name('admin.order.index');
     Route::patch('/admin/order/{order}/update', [OrderController::class, 'update'])->name('admin.order.update');
 
-
+    Route::get('admin/feedback', [FeedbackController::class, 'index'])->name('admin.feedback');
 });
 // Route::get('/admin/order/detail', [OrdertController::class, 'order_detail'])->name('admin.order.detail');
