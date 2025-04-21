@@ -18,31 +18,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('user.order.order-success');
-        // try {
-        //     $user = Auth::user();
-        //     if (!$user) {
-        //         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        //     }
-    
-        //     $cartItems = Cart::with('product')->where('user_id', $user->id)->get();
-    
-        //     if ($cartItems->isEmpty()) {
-        //         return redirect()->route('cart.index')->with('error', 'Keranjang kamu kosong.');
-        //     }
-    
-        //     $originalPrice = $cartItems->sum(function ($item) {
-        //         return $item->product->price * $item->quantity;
-        //     });
-    
-        //     $tax = $originalPrice * 0.1;
-        //     $total = $originalPrice + $tax;
-    
-        //     return view('user.order.order-overview', compact('cartItems', 'originalPrice', 'tax', 'total'));
-    
-        // } catch (\Exception $e) {
-        //     return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        // }
+        // return view('user.order.order-success');
+        if (auth()->user()->role_id === 1) {
+            $orders = Order::with('user')->latest()->get();
+            return view('admin.order.index', compact('orders'));
+        } else {
+            $orders = auth()->user()->orders()->latest()->get();
+            return view('user.order.order-success', compact('orders'));
+        }
     }
 
     /**
@@ -163,7 +146,15 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        try {
+            $order->update([
+                'status' => $request->status
+            ]);
+    
+            return back()->with('success', 'Order status updated successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update status.');
+        }
     }
 
     /**
