@@ -16,34 +16,38 @@
       </div>
       <div class="hidden lg:flex lg:flex-col items-center gap-4"> 
         <div class="flex gap-x-12">
-          <a href="{{ route('home') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
-          <a href="{{ route('product.index') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
-          {{-- <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
-          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
-          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a> --}}
+          <a href="{{ route('home') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Beranda</a>
+          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Tentang Kami</a>
+          <a href="{{ route('product.index') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Produk</a>
+          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Lokasi</a>
+          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Kontak</a>
         </div>
     
         <!-- Search bar -->
-        {{-- <div class="relative w-full max-w-xs">
-          <input type="text" placeholder="Search..." class="w-full py-2 pl-4 pr-10 text-gray-700 bg-white border rounded-lg focus:border-primary-700 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-40">
-          
-          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <ion-icon name="search-outline"></ion-icon>
-          </div>
-        </div> --}}
-
+        <div class="relative w-full flex justify-center">
+          <form class="flex items-center w-full max-w-sm">
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <input type="search" id="simple-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Cari produk" required>
+              <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>        
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end items-center">
         @if (Auth::check())
           <div>
             <div class="flex items-center">
-              {{-- <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-indigo-600">{{ Auth::user()->username }}</h2> --}}
-              <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700 mr-4">
-                <ion-icon name="cart-outline"></ion-icon>
-              </a>
-              <div class="relative ml-3 hover:text-primary-700">
+              <a href="{{ route('cart.index') }}" class="text-2xl mr-3">
+                <svg class="w-[45px] h-[45px] text-gray-800 dark:text-white hover:text-primary-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+                </svg>
+              </a>              
+              <div class="relative hover:text-primary-700">
                 <div>
-                  <button @click="isUserOpen = !isUserOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-400" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <button @click="isUserOpen = !isUserOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-grey focus:ring-offset-2 focus:ring-offset-grey-400" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
                     <img class="h-10 w-auto rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
@@ -78,7 +82,7 @@
                   </form>
                 </div>
               </div>
-              <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-primary-400">{{ Auth::user()->username }}</h2>
+              <h2 class="ml-2 text-base font-normal text-gray-900">{{ Auth::user()->username }}</h2>
             </div>
           </div>
         @else
@@ -107,38 +111,42 @@
           </button>
         </div>
         <!-- Search bar -->
-        {{-- <div class="relative mt-6">
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            class="w-full rounded-lg border border-gray-300 py-2 pl-4 pr-10 text-sm text-gray-900 placeholder-gray-400 focus:border-primary-700 focus:outline-none focus:ring focus:ring-primary-200 focus:ring-opacity-40" 
-          />
-          <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-            <ion-icon name="search-outline"></ion-icon>
-          </div>
-        </div> --}}
+        <div class="relative w-full flex justify-center mt-4">
+          <form class="flex items-center w-full max-w-sm">
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <input type="search" id="simple-search" class="w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Cari produk" required>
+              <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
         <div class="mt-4 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a href="{{ route('home') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
-              <a href="{{ route('product.index') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
-              {{-- <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a> --}}
+              <a href="{{ route('home') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Beranda</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Tentang Kami</a>
+              <a href="{{ route('product.index') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Produk</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Lokasi</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Kontak</a>
             </div>
 
             <div class="flex justify-center items-center py-4">
               @if (Auth::check())
                 <div class="flex items-center justify-center ">
                   <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700">
-                    <ion-icon name="cart-outline"></ion-icon>
+                    {{-- <ion-icon name="cart-outline"></ion-icon> --}}
+                    <svg class="w-[45px] h-[45px] text-gray-800 dark:text-white hover:text-primary-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+                    </svg>
                   </a>
-                  <div class="mx-8">
+                  <div class="mx-4">
                     |
                   </div>
                   <div class="relative">
                     <div>
-                      <button @click="isUserOpen = !isUserOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-400" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                      <button @click="isUserOpen = !isUserOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-grey focus:ring-offset-2 focus:ring-offset-grey-400" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Open user menu</span>
                         <img class="h-8 w-auto rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
@@ -173,7 +181,7 @@
                       </form>
                     </div>
                   </div>
-                  <h2 class="ml-2 text-base font-semibold text-gray-900 hover:text-primary-400">{{ Auth::user()->username }}</h2>
+                  {{-- <h2 class="ml-2 text-base font-normal text-gray-900">{{ Auth::user()->username }}</h2> --}}
                 </div>
               @else
                 <a href="{{ route('cart.index') }}" class="text-2xl hover:text-primary-700 mr-4">
