@@ -13,28 +13,21 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // $user = Auth::user();
-    // $carts = $user->carts()->with('product')->get();
     public function index()
     {
         try {
-            $userId = Auth::id(); // atau auth()->id()
+            $userId = Auth::id();
             
-            // Ambil semua cart berdasarkan user_id
             $carts = Cart::where('user_id', $userId)->with('product')->get();
             
-            // Hitung total harga dan pajak
             $originalPrice = $carts->reduce(function ($carry, $cart) {
                 return $carry + ($cart->product->price * $cart->quantity);
-            }, 0); // 0 adalah nilai awal untuk total harga asli
+            }, 0);
 
-            // Misalkan tax adalah 10% dari harga asli
             $tax = $originalPrice * 0.1;
 
-            // Total harga = original price + tax
             $totalPrice = $originalPrice + $tax;
 
-            // Kembalikan ke view dengan data cart, original price, tax, dan total price
             return view('user.cart.cart-view', compact('carts', 'originalPrice', 'tax', 'totalPrice'));
 
         } catch (\Exception $e) {
@@ -56,44 +49,29 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            if (!Auth::check()) {
-                return response()->json(['error' => 'You must be logged in to add to cart'], 403);
-            }
+        if (Auth::check()) {
+            $user = Auth::user();
+            $product = Product::findOrFail($request->product_id);
 
-            $request->validate([
-                'product_id' => 'required|exists:products,id',
-                'quantity' => 'required|integer|min:1',
-            ]);
+            $existingCart = Cart::where('user_id', $user->id)
+                ->where('product_id', $product->id)
+                ->first();
 
-            $product = Product::findOrFail($request->input('product_id'));
-
-            $cart = Cart::where('user_id', Auth::id())
-                        ->where('product_id', $product->id)
-                        ->first();
-
-            if ($cart) {
-                $cart->quantity += $request->input('quantity');
-                $cart->save();
+            if ($existingCart) {
+                $existingCart->quantity += $request->quantity;
+                $existingCart->save();
             } else {
                 Cart::create([
-                    'user_id' => Auth::id(),
+                    'user_id' => $user->id,
                     'product_id' => $product->id,
-                    'quantity' => $request->input('quantity'),
+                    'quantity' => $request->quantity,
                 ]);
             }
 
-            session()->flash('success', 'Product added to cart!');
-
-            if ($request->has('redirect_from_product') && $request->input('redirect_from_product') == 'true') {
-                return redirect()->route('product.index', $request->product_id);
-            }
-
-            return redirect()->route('product.show');
-        } catch (\Exception $e) {
-
-            return response()->json(['error' => 'There was an issue adding the product to your cart. Please try again later.'], 500);
+            return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
         }
+
+        return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
     }
 
 
@@ -148,6 +126,21 @@ class CartController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('cart.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function buyNow($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->product_id = $product->id;
+        $order->quantity = 1;
+        $order->total_price = $product->price;
+        $order->status = 'pending'; // atau langsung "paid" kalau ingin diselesaikan langsung
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Purchase successful!');
     }
 
 

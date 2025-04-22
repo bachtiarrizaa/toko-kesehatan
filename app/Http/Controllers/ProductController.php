@@ -23,7 +23,7 @@ class ProductController extends Controller
         }
     
         $categories = Category::all();
-        $products = $query->paginate(12); // <-- ini yang digunakan, bukan Product::all()
+        $products = $query->paginate(12);
     
         if (Auth::check() && Auth::user()->role_id === 1) {
             return view('admin.product.index', compact('products', 'categories'));

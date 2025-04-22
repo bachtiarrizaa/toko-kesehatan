@@ -4,9 +4,9 @@
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Order Overview</h2>
-                <span class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
+                {{-- <span class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
                     {{ ucfirst($order->status) }}
-                </span>
+                </span> --}}
             </div>
             
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">

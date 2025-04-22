@@ -40,7 +40,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input terlebih dahulu
         $request->validate([
             'payment_method' => 'required|in:cod,credit_card,paypal',
         ]);
@@ -74,13 +73,10 @@ class OrderController extends Controller
                     'price' => $cart->product->price,
                 ]);
             }
-
-            // Kosongkan cart user
             Cart::where('user_id', $user->id)->delete();
 
             DB::commit();
 
-            // return redirect()->route('order.index')->with('success', 'Order placed successfully!');
             return redirect()->route('order.success', $order->id)->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -96,40 +92,16 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         try {
-            // Pastikan hanya user yang terkait dengan order yang bisa mengaksesnya
             if (auth()->user()->id !== $order->user_id) {
                 abort(403, 'You are not authorized to view this order');
             }
     
-            // Pass order data ke view
             return view('user.order.show', compact('order'));
     
         } catch (\Exception $e) {
-            // Jika ada error, bisa menangani dengan try-catch
             return redirect()->route('history-order')->with('error', 'Failed to load order details');
         }
     }
-
-    public function storeFeedback(Request $request, Order_Item $orderItem)
-    {
-        $request->validate([
-            'feedback' => 'nullable|string',
-            'rating' => 'nullable|integer|min:1|max:5',
-        ]);
-
-        // Hanya pemilik order yang bisa mengisi feedback
-        if ($orderItem->order->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        $orderItem->update([
-            'feedback' => $request->feedback,
-            'rating' => $request->rating,
-        ]);
-
-        return back()->with('success', 'Feedback submitted!');
-    }
-
 
     public function success($id)
     {
@@ -140,7 +112,6 @@ class OrderController extends Controller
             ->latest()
             ->first();
 
-        // Jika tidak ada data checkout, redirect ke halaman keranjang
         if (!$order) {
             return redirect()->route('user.cart.index')->with('error', 'Checkout tidak ditemukan.');
         }
@@ -150,8 +121,6 @@ class OrderController extends Controller
 
     public function printPDF($id)
     {
-
-        // Cetak pdf hasil checkout
         $order = Order::with(['items.product', 'user'])->findOrFail($id);
 
         $pdf = Pdf::loadView('user.order.pdf', compact('order'))

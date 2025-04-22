@@ -15,7 +15,7 @@
             </div>
                 <tbody>
 
-                    @foreach ($order->orderItems as $item)
+                    @foreach ($order->items as $item)
                         <div class="mb-4 border p-4 rounded">
                             <p><strong>{{ $item->product->name }}</strong></p>
                             <p>Qty: {{ $item->quantity }}</p>

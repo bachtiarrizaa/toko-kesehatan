@@ -18,9 +18,9 @@
         <div class="flex gap-x-12">
           <a href="{{ route('home') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
           <a href="{{ route('product.index') }}" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
-          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
+          {{-- <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
           <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
-          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a>
+          <a href="#" class="text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a> --}}
         </div>
     
         <!-- Search bar -->
@@ -122,9 +122,9 @@
             <div class="space-y-2 py-6">
               <a href="{{ route('home') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Home</a>
               <a href="{{ route('product.index') }}" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Product</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
+              {{-- <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Shop</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">About</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-lg font-normal text-gray-900 hover:text-primary-700 hover:font-semibold">Contact</a> --}}
             </div>
 
             <div class="flex justify-center items-center py-4">
