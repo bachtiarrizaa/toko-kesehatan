@@ -8,26 +8,23 @@
           <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Our Product</h2>
         </div>
         <div class="flex items-center space-x-4">
-          <div>
-            <input type="text" id="searchInput" placeholder="Search products..." class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:w-64" />
-          </div>
           <form method="GET" action="{{ route('product.index') }}">
-              @if(request('category'))
-                  <input type="hidden" name="category" value="{{ request('category') }}">
-              @endif
-              @if(request('max_price'))
-                  <input type="hidden" name="max_price" value="{{ request('max_price') }}">
-              @endif
-          
-              <input
-                  type="text"
-                  name="search"
-                  value="{{ request('search') }}"
-                  placeholder="Search products..."
-                  class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400
-                        focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white
-                        dark:placeholder-gray-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:w-64"
-              />
+            @if(request('category'))
+                <input type="hidden" name="category" value="{{ request('category') }}">
+            @endif
+            @if(request('max_price'))
+                <input type="hidden" name="max_price" value="{{ request('max_price') }}">
+            @endif
+            
+            <input
+              type="text"
+              name="search"
+              value="{{ request('search') }}"
+              placeholder="Search products..."
+              class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400
+                    focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white
+                    dark:placeholder-gray-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:w-64"
+            />
           </form>
           <form id="filterForm" action="{{ route('product.index') }}" method="GET">
             <input type="hidden" name="category" id="categoryInput">
